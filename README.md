@@ -6,8 +6,8 @@ Rd is a random choice generator written in Python using the Tkinter library. It 
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/colinwang1703/rd.git`
-2. Navigate to the project directory: `cd rd`
+1. Clone the repository: `git clone https://github.com/shs-plus/Rd.git`
+2. Navigate to the project directory: `cd Rd`
 3. Run the program: `py main.pyw`
 
 ## Usage
@@ -19,6 +19,7 @@ You can customize the program by editing the `settings.json` file. Here are the 
 - `title`: The title of the window.
 - `geometry`: The size and position of the window.
 - `n`: The range of numbers to choose from.
+- `coef`: The degree of likeliness for a number generated recently to be generated again.
 - `debug`: Whether to enable debug mode.
 - `exception`: A list of numbers that should not be generated.
 
