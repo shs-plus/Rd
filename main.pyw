@@ -1,7 +1,7 @@
 # Copyright (C) 2024 Colin Wang
 # License: GPL v3
 # Description: A random choice generator
-# Github: https://github.com/colinwang1703/rd/
+# Github: https://github.com/shs-plus/Rd
 
 import tkinter as tk
 import json
@@ -9,6 +9,7 @@ import random
 import logging
 import sys
 import tkinter.messagebox as mes
+import itertools
 
 try:
     with open('settings.json') as f:
@@ -32,14 +33,6 @@ if DEBUG:
     logging.getLogger().setLevel(logging.DEBUG)
     logging.debug('Debugging mode enabled')
 
-def set_n():
-    global n
-    n = set(range(1, settings['n'] + 1))
-    for i in settings['exception']:
-        n.remove(i)
-    logging.debug(f'Setting n')
-
-set_n()
 window = tk.Tk()
 window.title(settings['title'])
 window.attributes('-topmost', True)
@@ -49,15 +42,25 @@ window.resizable(False, False)
 label = tk.Label(window, text=settings['copyright'])
 
 def random_choice():
-    global n
-    if not n:
-        set_n()
-    p = random.choice(list(n))
-    label['text'] = p
-    n.remove(p)
-    logging.debug(f'Random choice: {p}')
+    '''
+    A different choosing algorithm.
+    For each iteration, normalize the probabilities, choose one, then multiply the probability of the choosed one by .5 (it can be any other number < 1)
+    Then the results would be more mixed together, rather than chunks of 35 (for example) pieced together
+    '''
+    n = dict(zip(set(range(1, settings['n'] + 1)) - set(settings['exception']), itertools.repeat(1)))
+    logging.debug(f'Setting n')
+    while True:
+        t = sum(n)
+        for p in n:
+            n[p] /= t
+        yield (p := random.choices(list(n), list(n.values()))[0])
+        n[p] *= .5 # hard-coded coefficient
+        logging.debug(f'Random choice: {p}')
+        label['text'] = p
 
-button = tk.Button(window, text="Random Choice", command=random_choice)
+ch = random_choice()
+
+button = tk.Button(window, text="Random Choice", command=lambda: next(ch))
 button.place(relx=0.5, rely=0.3, anchor='center')
 label.place(relx=0.5, rely=0.7, anchor='center')
 window.mainloop()
