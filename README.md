@@ -4,11 +4,15 @@
 
 Rd is a random choice generator written in Python using the Tkinter library. It allows you to generate a random number within a specified range, excluding any numbers you choose.
 
+**Note: Rd belongs to [SHS Plus](https://github.com/shs-plus) now.**
+
 ## Installation
+
+**Note: This program relies on Python 3.**
 
 1. Clone the repository: `git clone https://github.com/shs-plus/Rd.git`
 2. Navigate to the project directory: `cd Rd`
-3. Run the program: `py main.pyw`
+3. Run the program: `python main.pyw`
 
 ## Usage
 
@@ -19,7 +23,7 @@ You can customize the program by editing the `settings.json` file. Here are the 
 - `title`: The title of the window.
 - `geometry`: The size and position of the window.
 - `n`: The range of numbers to choose from.
-- `coef`: The degree of likeliness for a number generated recently to be generated again.
+- `rec`: Likelihood of a recently generated number being generated again.
 - `debug`: Whether to enable debug mode.
 - `exception`: A list of numbers that should not be generated.
 
